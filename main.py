@@ -13,11 +13,11 @@ def generate_response(topic, no_of_ques, no_of_options, diff_level):
                 "question":  "sample question1 ?",
                 "options": [
                     "answer option 1", 
-                "correct answer option 2",
+                    "correct answer option",
                     "answer option 3",
                     "answer option 4"
                 ],
-                "correct_option": 1,
+                "correct_option": "correct answer option",
                 },
 
                 {
@@ -25,10 +25,10 @@ def generate_response(topic, no_of_ques, no_of_options, diff_level):
                 "options": [
                     "answer option 1",
                     "answer option 2",
-                    "correct answer option 3",
+                    "this is correct option",
                     "answer option 4"
                 ],
-                "correct_option": 2
+                "correct_option": "this is correct option"
                 }
                 ]
     my_prompt = "Generate a {0} level quiz for the topic: {1}, {2} questions {3} options each, in pure JSON format like {4}".format(diff_level, topic, no_of_ques, no_of_options,str(json_format))
@@ -41,11 +41,14 @@ def generate_response(topic, no_of_ques, no_of_options, diff_level):
             max_tokens=3000
         )
         ans = response['choices'][0].message
-        
+        print(ans)
         return ans["content"]
 
     except Exception as e:
         return f"Error: {e}"
+
+def compare_strings(string1, string2):
+    return string1 == string2
 
 
 def main():
@@ -94,11 +97,14 @@ def main():
         st.session_state[f"A{int(idx) + 1}"] = question_data["correct_option"]
 
     if st.button("Submit Quiz"):
-        
-        st.write(f"Your score: {user_score}/{st.session_state['total_questions']}")
-        st.write("Your answers:", user_answers)
-        
-    st.write(st.session_state)
+        score = 0
+        for i in range(st.session_state['total_questions']):
+            user_choice = st.session_state[f"Q{int(i) + 1}"]
+            correct_choice = st.session_state[f"A{int(i) + 1}"]
+            result = compare_strings(user_choice, correct_choice) 
+            if result == True:
+                score = score + 1 
+        st.write(f"Your score: {score}/{st.session_state['total_questions']}")
                 
             
 if __name__ == "__main__":
