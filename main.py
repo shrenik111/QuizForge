@@ -3,7 +3,7 @@ import openai
 import json
 
 # Replace 'YOUR_OPENAI_API_KEY' with your actual OpenAI API key
-# openai.api_key = st.secrets["OPENAPIKEY"]
+openai.api_key = st.secrets["OPENAPIKEY"]
 
 
 def generate_response(topic, no_of_ques, no_of_options, diff_level):
