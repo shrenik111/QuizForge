@@ -6,46 +6,6 @@ import json
 # openai.api_key = st.secrets["OPENAPIKEY"]
 
 
-def generate_response(topic, no_of_ques, no_of_options, diff_level):
-    # Number of ques, options number, difficulty level
-    json_format = [
-        {
-                "question":  "sample question1 ?",
-                "options": [
-                    "answer option 1", 
-                "correct answer option 2",
-                    "answer option 3",
-                    "answer option 4"
-                ],
-                "correct_option": 1,
-                },
-
-                {
-                "question":  "sample question2?",
-                "options": [
-                    "answer option 1",
-                    "answer option 2",
-                    "correct answer option 3",
-                    "answer option 4"
-                ],
-                "correct_option": 2
-                }
-                ]
-    my_prompt = "Generate a {0} level quiz for the topic: {1}, {2} questions {3} options each, in pure JSON format like {4}".format(diff_level, topic, no_of_ques, no_of_options,str(json_format))
-    print("Its here ")
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "system", "content": my_prompt}],
-            temperature=0,
-            max_tokens=3000
-        )
-        ans = response['choices'][0].message
-        
-        return ans["content"]
-
-    except Exception as e:
-        return f"Error: {e}"
 
 
 def main():
@@ -82,21 +42,7 @@ def main():
             st.session_state['questions_data'] = questions
             st.session_state["total_questions"] = len(questions)
 
-    for idx, question_data in enumerate(st.session_state['questions_data']):
-        question = question_data["question"]
-        options = question_data["options"]
-        correct_ans_arr.append(question_data["correct_option"])
-        st.write(f"**Question {idx+1}/{st.session_state['total_questions']}:** {question}")
 
-        user_answer = st.selectbox("Choose an option:", options)
-        
-        st.session_state[f"Q{int(idx) + 1}"] = user_answer
-        st.session_state[f"A{int(idx) + 1}"] = question_data["correct_option"]
-
-    if st.button("Submit Quiz"):
-        
-        st.write(f"Your score: {user_score}/{st.session_state['total_questions']}")
-        st.write("Your answers:", user_answers)
         
     st.write(st.session_state)
                 
