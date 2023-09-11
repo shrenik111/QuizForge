@@ -52,7 +52,7 @@ def compare_strings(string1, string2):
 
 
 def main():
-    st.title("OpenAI Streamlit App")
+    st.title(" Quizforge App")
 
     # Get the topic input from the user
     topic = st.text_input("Please choose topic:")
