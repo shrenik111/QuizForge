@@ -42,6 +42,12 @@ def main():
             st.session_state['questions_data'] = questions
             st.session_state["total_questions"] = len(questions)
 
+    for idx, question_data in enumerate(st.session_state['questions_data']):
+        question = question_data["question"]
+        options = question_data["options"]
+        correct_ans_arr.append(question_data["correct_option"])
+        st.write(f"**Question {idx+1}/{st.session_state['total_questions']}:** {question}")
+
 
         
     st.write(st.session_state)
