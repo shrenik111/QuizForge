@@ -93,6 +93,10 @@ def main():
         st.session_state[f"Q{int(idx) + 1}"] = user_answer
         st.session_state[f"A{int(idx) + 1}"] = question_data["correct_option"]
 
+    if st.button("Submit Quiz"):
+        
+        st.write(f"Your score: {user_score}/{st.session_state['total_questions']}")
+        st.write("Your answers:", user_answers)
         
     st.write(st.session_state)
                 
