@@ -32,7 +32,7 @@ def generate_response(topic, no_of_ques, no_of_options, diff_level):
         }
     ]
     my_prompt = "Generate a {0} level quiz for the topic: {1}, {2} questions {3} options each, in pure JSON format like {4}".format(
-        diff_level, topic, no_of_ques, no_of_options, str(json_format))
+        diff_level, topic, no_of_ques, no_of_options, json.dumps(json_format))
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
